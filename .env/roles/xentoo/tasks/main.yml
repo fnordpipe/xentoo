@@ -1,0 +1,51 @@
+---
+- name: create xentoo directories
+  file:
+    dest: '{{ item.dest }}'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items:
+    - { dest: /var/lib/xentoo }
+
+    - { dest: /var/lib/xentoo/conf }
+    - { dest: /var/lib/xentoo/conf/etc }
+    - { dest: /var/lib/xentoo/conf/etc/portage }
+
+    - { dest: /var/lib/xentoo/rootfs }
+    - { dest: /var/lib/xentoo/rootfs/usr }
+
+    - { dest: /var/lib/xentoo/distfiles }
+    - { dest: /var/lib/xentoo/packages }
+
+- name: create portage config
+  template:
+    src: etc/portage/make.conf.j2
+    dest: /var/lib/xentoo/conf/etc/portage/make.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: create bash profile
+  template:
+    src: root/.bash_profile.j2
+    dest: /root/.bash_profile
+    owner: root
+    group: root
+    mode: 0644
+
+- name: create profile symlink
+  file:
+    src: /usr/portage/profiles/hardened/linux/amd64
+    dest: /var/lib/xentoo/conf/etc/portage/make.profile
+    state: link
+
+- name: create xentoo symlinks
+  file:
+    src: lib64
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { dest: /var/lib/xentoo/rootfs/lib }
+    - { dest: /var/lib/xentoo/rootfs/usr/lib }
