@@ -12,6 +12,7 @@
     - { dest: /var/lib/xentoo/conf }
     - { dest: /var/lib/xentoo/conf/etc }
     - { dest: /var/lib/xentoo/conf/etc/portage }
+    - { dest: /var/lib/xentoo/conf/etc/portage/repos.conf }
 
     - { dest: /var/lib/xentoo/rootfs }
     - { dest: /var/lib/xentoo/rootfs/lib64 }
@@ -43,6 +44,14 @@
     src: /var/lib/xentoo/overlays/xentoo/profiles/amd64
     dest: /var/lib/xentoo/conf/etc/portage/make.profile
     state: link
+
+- name: create repos conf
+  template:
+    src: etc/portage/repos.conf/xentoo.conf.j2
+    dest: /var/lib/xentoo/conf/etc/portage/repos.conf/xentoo.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: create xentoo symlinks
   file:
