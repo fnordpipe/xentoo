@@ -20,6 +20,7 @@
 
     - { dest: /var/lib/xentoo/distfiles }
     - { dest: /var/lib/xentoo/packages }
+    - { dest: /var/lib/xentoo/overlays }
 
 - name: create portage config
   template:
@@ -39,16 +40,17 @@
 
 - name: create profile symlink
   file:
-    src: /usr/portage/profiles/hardened/linux/amd64
+    src: /var/lib/xentoo/overlays/xentoo/profiles/amd64
     dest: /var/lib/xentoo/conf/etc/portage/make.profile
     state: link
 
 - name: create xentoo symlinks
   file:
-    src: lib64
+    src: '{{ item.src }}'
     dest: '{{ item.dest }}'
     force: yes
     state: link
   with_items:
-    - { dest: /var/lib/xentoo/rootfs/lib }
-    - { dest: /var/lib/xentoo/rootfs/usr/lib }
+    - { src: lib64, dest: /var/lib/xentoo/rootfs/lib }
+    - { src: lib64, dest: /var/lib/xentoo/rootfs/usr/lib }
+    - { src: /usr/local/development/xentoo, dest: /var/lib/xentoo/overlays/xentoo }
