@@ -14,7 +14,9 @@
     - { dest: /var/lib/xentoo/conf/etc/portage }
 
     - { dest: /var/lib/xentoo/rootfs }
+    - { dest: /var/lib/xentoo/rootfs/lib64 }
     - { dest: /var/lib/xentoo/rootfs/usr }
+    - { dest: /var/lib/xentoo/rootfs/usr/lib64 }
 
     - { dest: /var/lib/xentoo/distfiles }
     - { dest: /var/lib/xentoo/packages }
@@ -45,6 +47,7 @@
   file:
     src: lib64
     dest: '{{ item.dest }}'
+    force: yes
     state: link
   with_items:
     - { dest: /var/lib/xentoo/rootfs/lib }

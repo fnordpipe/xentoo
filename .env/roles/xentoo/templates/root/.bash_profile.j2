@@ -1,4 +1,19 @@
 #!/bin/bash
 
-export PORTAGE_CONFIGROOT="/var/lib/xentoo/conf"
-export ROOT="/var/lib/xentoo/rootfs"
+bake() {
+  emerge \
+    --root=/var/lib/xentoo/rootfs \
+    --config-root=/var/lib/xentoo/conf \
+    $@
+}
+
+clean() {
+  rm -rf /var/lib/xentoo/rootfs/*
+
+  install -d -m 0755 /var/lib/xentoo/rootfs/lib64
+  install -d -m 0755 /var/lib/xentoo/rootfs/usr
+  install -d -m 0755 /var/lib/xentoo/rootfs/usr/lib64
+
+  ln -snf lib64 /var/lib/xentoo/rootfs/lib
+  ln -snf lib64 /var/lib/xentoo/rootfs/usr/lib
+}

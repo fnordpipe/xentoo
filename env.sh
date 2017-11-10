@@ -40,7 +40,7 @@ if ! lxc-info -n "${INSTANCE}" &> /dev/null; then
   export LXCCONFIG=$(mktemp)
 
   lxccfg ${LXCCONFIG}
-  lxc-create -n "${INSTANCE}" -f ${LXCCONFIG} -t gentoo
+  lxc-create -n "${INSTANCE}" -f ${LXCCONFIG} -t gentoo -- -v amd64-hardened
   rm ${LXCCONFIG}
   lxc-start -n "${INSTANCE}"
 
@@ -54,7 +54,7 @@ if ! lxc-info -n "${INSTANCE}" &> /dev/null; then
   lxcrun "useradd -m -g ${LXCGID} -u ${LXCUID} user"
 
   lxcrun 'emerge --sync -q'
-  lxcrun 'USE="-bindist sqlite" emerge -unDq world'
+  lxcrun 'USE="-bindist sqlite" emerge -uNDq world'
   lxcrun 'USE="-bindist sqlite" emerge -q ansible gentoolkit'
 fi
 
