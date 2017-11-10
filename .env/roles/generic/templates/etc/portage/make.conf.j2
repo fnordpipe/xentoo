@@ -1,0 +1,12 @@
+CFLAGS="-O2 -pipe"
+CXXFLAGS="${CFLAGS}"
+CHOST="x86_64-pc-linux-gnu"
+
+CPU_FLAGS_X86="mmx sse sse2"
+MAKEOPTS="-j{{ ansible_processor_vcpus }}"
+
+EMERGE_DEFAULT_OPTS="-j3"
+
+PORTDIR="/usr/portage"
+DISTDIR="${PORTDIR}/distfiles"
+PKGDIR="${PORTDIR}/packages"

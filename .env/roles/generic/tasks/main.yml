@@ -5,6 +5,25 @@
 
 - name: create symlink
   file:
-    src: /usr/local/development
-    dest: /home/user/development
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
     state: link
+  with_items:
+    - { src: /usr/local/development, dest: /root/development }
+
+- name: create make conf
+  template:
+    src: etc/portage/make.conf.j2
+    dest: /etc/portage/make.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: update toolchain
+  portage:
+    update: yes
+    newuse: yes
+    deep: yes
+    package: '@world'
+    quiet: yes
+    jobs: 3
