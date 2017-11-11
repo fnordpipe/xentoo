@@ -15,4 +15,5 @@ IUSE=""
 
 RDEPEND="
   app-emulation/xen
+  sys-fs/rluksd
   "

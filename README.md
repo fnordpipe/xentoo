@@ -1,5 +1,11 @@
 ![gentoo](https://gentoo.org/assets/img/badges/gentoo-badge2.png "gentoo")
 
+# about
+
+xentoo is a gentoo-based linux-distro that aims to be a lean xen dom0 firmware.
+it's designed to be a single initram that boots a full encrypted filesystem using
+[rluksd](https://github.com/esno/locky).
+
 # setup
 
 ### setup the toolchain:
