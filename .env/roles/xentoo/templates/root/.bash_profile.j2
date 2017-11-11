@@ -1,19 +1,43 @@
 #!/bin/bash
 
+export BAKEROOT="/var/lib/xentoo"
+export BAKEDEPLOY="${BAKEROOT}/deploy"
+export BAKEROOTFS="${BAKEROOT}/rootfs"
+export BAKECONF="${BAKEROOT}/conf"
+
 bake() {
-  emerge \
-    --root=/var/lib/xentoo/rootfs \
-    --config-root=/var/lib/xentoo/conf \
-    $@
+  BAKETIME=$(date "+%Y%m%d%H%M")
+  XENBLOB=$(basename $(realpath ${BAKEROOTFS}/boot/xen.gz))
+  LINUXBLOB=$(basename $(realpath ${BAKEROOTFS}/boot/vmlinuz))
+
+  install -d ${BAKEDEPLOY}/${BAKETIME}
+  install ${BAKEROOTFS}/boot/${XENBLOB} ${BAKEDEPLOY}/${BAKETIME}/xen.gz
+  install ${BAKEROOTFS}/boot/${LINUXBLOB} ${BAKEDEPLOY}/${BAKETIME}/vmlinuz
+
+  ebake -q --depclean
+  rm -rf ${BAKEROOTFS}/boot/*
+
+  cd ${BAKEROOTFS}
+  find . -print0 | \
+    cpio --null -ov --format=newc | \
+    gzip -9 > ${BAKEDEPLOY}/${BAKETIME}/rootfs.cpio.gz
+  cd -
 }
 
 clean() {
   rm -rf /var/lib/xentoo/rootfs/*
 
-  install -d -m 0755 /var/lib/xentoo/rootfs/lib64
-  install -d -m 0755 /var/lib/xentoo/rootfs/usr
-  install -d -m 0755 /var/lib/xentoo/rootfs/usr/lib64
+  install -d -m 0755 ${BAKEROOTFS}/lib64
+  install -d -m 0755 ${BAKEROOTFS}/usr
+  install -d -m 0755 ${BAKEROOTFS}/usr/lib64
 
-  ln -snf lib64 /var/lib/xentoo/rootfs/lib
-  ln -snf lib64 /var/lib/xentoo/rootfs/usr/lib
+  ln -snf lib64 ${BAKEROOTFS}/lib
+  ln -snf lib64 ${BAKEROOTFS}/usr/lib
+}
+
+ebake() {
+  emerge \
+    --root=${BAKEROOTFS} \
+    --config-root=${BAKECONF} \
+    $@
 }

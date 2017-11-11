@@ -21,6 +21,7 @@
 
     - { dest: /var/lib/xentoo/distfiles }
     - { dest: /var/lib/xentoo/packages }
+    - { dest: /var/lib/xentoo/deploy }
     - { dest: /var/lib/xentoo/overlays }
 
 - name: create portage config

@@ -20,9 +20,11 @@ it's designed to be a single initram that boots a full encrypted filesystem usin
 ## run the build
 
     $ lxc-attach -n <container> -- /bin/su -l
-    $ bake -aveq dom0-image
+    $ ebake -aveq dom0-image
+    $ bake
 
 The rootfs is located at `/var/lib/xentoo/rootfs`
+and the images are located at `/var/lib/xentoo/deploy`
 
 # documentation
 
