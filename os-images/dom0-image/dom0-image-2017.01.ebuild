@@ -15,5 +15,8 @@ IUSE=""
 
 RDEPEND="
   app-emulation/xen
+  net-misc/bridge-utils
+  sys-boot/syslinux
+  sys-fs/mdadm
   sys-fs/rluksd
   "
