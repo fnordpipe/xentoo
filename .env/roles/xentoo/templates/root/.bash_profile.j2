@@ -11,14 +11,12 @@ bake() {
   LINUXBLOB=$(basename $(realpath ${BAKEROOTFS}/boot/vmlinuz))
 
   install -d ${BAKEDEPLOY}/${BAKETIME}
-  install ${BAKEROOTFS}/boot/${XENBLOB} ${BAKEDEPLOY}/${BAKETIME}/xen.gz
-  install ${BAKEROOTFS}/boot/${LINUXBLOB} ${BAKEDEPLOY}/${BAKETIME}/vmlinuz
-
+  install ${BAKEROOTFS}/boot/${XENBLOB} ${BAKEDEPLOY}/${BAKETIME}/xen.gz || :
+  install ${BAKEROOTFS}/boot/${LINUXBLOB} ${BAKEDEPLOY}/${BAKETIME}/vmlinuz || :
   ebake -q --depclean
-  rm -rf ${BAKEROOTFS}/boot/*
 
   cd ${BAKEROOTFS}
-  find . -print0 | \
+  find . -not -path './boot/*' -print0 | \
     cpio --null -ov --format=newc | \
     gzip -9 > ${BAKEDEPLOY}/${BAKETIME}/rootfs.cpio.gz
   cd -

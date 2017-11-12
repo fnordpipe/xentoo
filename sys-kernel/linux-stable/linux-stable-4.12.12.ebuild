@@ -35,4 +35,6 @@ src_install() {
   dodir /boot
   emake ARCH="$(tc-arch-kernel)" INSTALL_PATH="${D}/boot" install
   emake ARCH="$(tc-arch-kernel)" INSTALL_MOD_PATH="${D}" modules_install
+
+  dosym vmlinuz-${PV}-gentoo /boot/vmlinuz
 }

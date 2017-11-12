@@ -64,3 +64,8 @@
     - { src: lib64, dest: /var/lib/xentoo/rootfs/lib }
     - { src: lib64, dest: /var/lib/xentoo/rootfs/usr/lib }
     - { src: /usr/local/development/xentoo, dest: /var/lib/xentoo/overlays/xentoo }
+
+- name: install packages
+  portage:
+    package: cpio
+    state: present
