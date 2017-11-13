@@ -19,4 +19,5 @@ RDEPEND="
   sys-boot/syslinux
   sys-fs/mdadm
   sys-fs/rluksd
+  sys-kernel/linux-stable
   "
