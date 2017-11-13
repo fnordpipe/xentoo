@@ -40,20 +40,6 @@
     group: root
     mode: 0644
 
-- name: create profile symlink
-  file:
-    src: /var/lib/xentoo/overlays/xentoo/profiles/amd64
-    dest: /var/lib/xentoo/conf/etc/portage/make.profile
-    state: link
-
-- name: create repos conf
-  template:
-    src: etc/portage/repos.conf/xentoo.conf.j2
-    dest: /var/lib/xentoo/conf/etc/portage/repos.conf/xentoo.conf
-    owner: root
-    group: root
-    mode: 0644
-
 - name: create xentoo symlinks
   file:
     src: '{{ item.src }}'
@@ -64,6 +50,20 @@
     - { src: lib64, dest: /var/lib/xentoo/rootfs/lib }
     - { src: lib64, dest: /var/lib/xentoo/rootfs/usr/lib }
     - { src: /usr/local/development/xentoo, dest: /var/lib/xentoo/overlays/xentoo }
+
+- name: create profile symlink
+  file:
+    src: /var/lib/xentoo/overlays/xentoo/profiles/hardened/amd64
+    dest: /var/lib/xentoo/conf/etc/portage/make.profile
+    state: link
+
+- name: create repos conf
+  template:
+    src: etc/portage/repos.conf/xentoo.conf.j2
+    dest: /var/lib/xentoo/conf/etc/portage/repos.conf/xentoo.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: install packages
   portage:

@@ -1,7 +1,7 @@
 ---
-- name: update system
-  portage:
-    sync: yes
+#- name: update system
+#  portage:
+#    sync: yes
 
 - name: create symlink
   file:
@@ -10,7 +10,7 @@
     state: link
   with_items:
     - { src: /usr/local/development, dest: /root/development }
-    - { src: /usr/local/development/xentoo/profiles/amd64, dest: /etc/portage/make.profile }
+    - { src: /usr/portage/profiles/hardened/linux/amd64, dest: /etc/portage/make.profile }
 
 - name: create make conf
   template:

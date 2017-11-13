@@ -33,3 +33,4 @@ and the images are located at `/var/lib/xentoo/deploy`
   * [variables](https://devmanual.gentoo.org/ebuild-writing/variables/index.html)
   * [install functions](https://devmanual.gentoo.org/function-reference/install-functions/index.html)
 * `man 5 ebuild`
+* `man portage`

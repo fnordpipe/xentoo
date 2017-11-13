@@ -1,7 +1,3 @@
-# profile
-INPUT_DEVICES=""
-VIDEO_CARDS=""
-
 # machine
 CHOST="x86_64-pc-linux-gnu"
 
@@ -10,8 +6,3 @@ CXXFLAGS="${CFLAGS}"
 CPU_FLAGS_X86="mmx sse sse2 sse3 sse4_1 ssse3"
 
 LDFLAGS="-Wl,-O1 -Wl,--as-needed"
-
-## system
-USE="python sqlite vim-syntax"
-
-L10N="en"

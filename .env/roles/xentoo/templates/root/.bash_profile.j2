@@ -24,6 +24,8 @@ bake() {
     cpio --null -ov --format=newc | \
     gzip -9 > ${BAKEDEPLOY}/${BAKETIME}/rootfs.cpio.gz
   cd -
+
+  ln -snf ${BAKETIME} ${BAKEDEPLOY}/latest
 }
 
 clean() {
