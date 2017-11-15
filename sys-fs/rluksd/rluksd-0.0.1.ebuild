@@ -8,7 +8,7 @@ inherit user
 
 DESCRIPTION="daemon to unlock luks container remotely"
 HOMEPAGE="https://www.fnordpipe.org"
-SRC_URI="https://github.com/esno/locky/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
+SRC_URI="https://github.com/esno/rluksd/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -24,7 +24,7 @@ RDEPEND="
   ${DEPEND}
   "
 
-S="${WORKDIR}/locky-${PV}"
+S="${WORKDIR}/rluksd-${PV}"
 
 src_install() {
   dodir /sbin
