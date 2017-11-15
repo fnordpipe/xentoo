@@ -25,8 +25,11 @@ bake() {
 
   cat >> ${BAKEROOTFS}/etc/fstab <<EOF
 LABEL=BOOT /boot ext4 defaults 0 0
+
 /boot/conf/hostname /etc/conf.d/hostname none bind 0 0
 /boot/conf/net /etc/conf.d/net none bind 0 0
+/boot/conf/rluksd /etc/conf.d/rluksd none bind 0 0
+/boot/conf/luksd /etc/conf.d/luksd none bind 0 0
 EOF
 
   install -d -m 0555 ${BAKEROOTFS}/proc
@@ -43,6 +46,8 @@ EOF
   ln -snf /etc/init.d/mdraid ${BAKEROOTFS}/etc/runlevels/boot/mdraid
   ln -snf /etc/init.d/lvm ${BAKEROOTFS}/etc/runlevels/boot/lvm
   ln -snf /etc/init.d/net.sysinit0 ${BAKEROOTFS}/etc/runlevels/default/net.sysinit0
+  ln -snf /etc/init.d/rluksd ${BAKEROOTFS}/etc/runlevels/default/rluksd
+  ln -snf /etc/init.d/luksd ${BAKEROOTFS}/etc/runlevels/default/luksd
 
   ln -snf /sbin/init ${BAKEROOTFS}/init
 
@@ -53,7 +58,8 @@ EOF
   install -m 0644 /usr/lib/cracklib_dict.pwd ${BAKEROOTFS}/usr/lib/cracklib_dict.pwd
   install -m 0644 /usr/lib/cracklib_dict.pwi ${BAKEROOTFS}/usr/lib/cracklib_dict.pwi
   # see https://github.com/fnordpipe/rescoo/issues/1
-  useradd -d /var/empty -R ${BAKEROOTFS} -u 22 -U -c "see bug 637584" sshd
+  useradd -d /var/empty -R ${BAKEROOTFS} -u 22 -U -c "see bug 637584" sshd || :
+  useradd -d /var/empty -R ${BAKEROOTFS} -u 837 -U -c "see bug 637584" rluksd || :
 
   cd ${BAKEROOTFS}
   find . -not -path './boot/*' -print0 | \

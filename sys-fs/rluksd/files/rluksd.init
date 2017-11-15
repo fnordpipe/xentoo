@@ -1,0 +1,27 @@
+description="rluksd remote unlock luks container"
+
+depend()
+{
+  need net luksd
+}
+
+start()
+{
+  start-stop-daemon --start \
+    --make-pidfile \
+    --pidfile /run/rluksd.pid \
+    --background \
+    --user ${RLUKSD_USER}:${RLUKSD_GROUP} \
+    --exec /sbin/rluksd ${RLUKSD_PUBKEY}
+
+  return 0
+}
+
+stop()
+{
+  start-stop-daemon --stop \
+    --pidfile /run/rluksd.pid \
+    --exec /sbin/rluksd
+
+  return 0
+}

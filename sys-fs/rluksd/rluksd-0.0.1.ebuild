@@ -4,6 +4,8 @@
 
 EAPI=6
 
+inherit user
+
 DESCRIPTION="daemon to unlock luks container remotely"
 HOMEPAGE="https://www.fnordpipe.org"
 SRC_URI="https://github.com/esno/locky/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
@@ -30,4 +32,15 @@ src_install() {
   exeinto /sbin
   newexe ${S}/locky rluksd
   doexe ${S}/luksd
+
+  newinitd ${FILESDIR}/rluksd.init rluksd
+  newinitd ${FILESDIR}/luksd.init luksd
+
+  newconfd ${FILESDIR}/rluksd.conf rluksd
+  newconfd ${FILESDIR}/luksd.conf luksd
+}
+
+pkg_preinst() {
+  enewgroup rluksd 837
+  enewuser rluksd 837 -1 /var/empty rluksd
 }
