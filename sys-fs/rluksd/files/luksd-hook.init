@@ -1,0 +1,26 @@
+description="luksd post-execution hook"
+
+depend()
+{
+  need luksd
+}
+
+start()
+{
+  start-stop-daemon --start \
+    --make-pidfile \
+    --pidfile /run/luksd-hook.pid \
+    --background \
+    --exec /sbin/luksd-hook
+
+  return 0
+}
+
+stop()
+{
+  start-stop-daemon --stop \
+    --pidfile /run/luksd-hook.pid \
+    --exec /sbin/luksd-hook
+
+  return 0
+}

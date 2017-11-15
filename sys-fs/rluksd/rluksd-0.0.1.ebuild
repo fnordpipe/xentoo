@@ -28,16 +28,20 @@ S="${WORKDIR}/locky-${PV}"
 
 src_install() {
   dodir /sbin
+  dodir /usr/libexec/luksd
 
   exeinto /sbin
-  newexe ${S}/locky rluksd
   doexe ${S}/luksd
+  newexe ${S}/locky rluksd
+  newexe ${FILESDIR}/luksd-hook.sh luksd-hook
 
   newinitd ${FILESDIR}/rluksd.init rluksd
   newinitd ${FILESDIR}/luksd.init luksd
 
   newconfd ${FILESDIR}/rluksd.conf rluksd
   newconfd ${FILESDIR}/luksd.conf luksd
+
+  newinitd ${FILESDIR}/luksd-hook.init luksd-hook
 }
 
 pkg_preinst() {
