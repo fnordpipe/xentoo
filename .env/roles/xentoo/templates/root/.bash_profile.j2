@@ -19,10 +19,6 @@ bake() {
   install ${BAKEROOTFS}/usr/share/syslinux/mboot.c32 ${BAKEDEPLOY}/${BAKETIME}/mboot.c32 || :
   ebake -q --depclean
 
-  if [ ! -f ${BAKECONF}/root.key.pub ]; then
-    ssh-keygen -t ed25519 -f ${BAKECONF}/root.key -N '' -C rescue
-  fi
-
   cat >> ${BAKEROOTFS}/etc/fstab <<EOF
 LABEL=BOOT /boot ext4 defaults 0 0
 
@@ -36,8 +32,6 @@ EOF
   install -d -m 0555 ${BAKEROOTFS}/sys
   install -d -m 0755 ${BAKEROOTFS}/dev
   install -d -m 0755 ${BAKEROOTFS}/home ${BAKEROOTFS}/mnt ${BAKEROOTFS}/opt
-  install -d -m 0700 ${BAKEROOTFS}/root/.ssh
-  install -m 0600 ${BAKECONF}/root.key.pub ${BAKEROOTFS}/root/.ssh/authorized_keys
 
   echo 'rc_after="clock localmount"' >> ${BAKEROOTFS}/etc/conf.d/hostname
   touch ${BAKEROOTFS}/etc/conf.d/net

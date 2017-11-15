@@ -4,7 +4,7 @@
 
 EAPI=6
 
-DESCRIPTION="meta package for xen dom0 rootfs"
+DESCRIPTION="daemon to initialize system after luks container is open"
 HOMEPAGE="https://www.fnordpipe.org"
 SRC_URI=""
 
@@ -14,11 +14,15 @@ KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND="
-  app-emulation/xen
-  net-misc/bridge-utils
-  sys-boot/syslinux
-  sys-fs/mdadm
   sys-fs/rluksd
-  sys-fs/luksd-hook
-  sys-kernel/linux-stable
   "
+
+S="${WORKDIR}"
+
+src_install() {
+  dodir /usr/libexec/luksd
+  dodir /usr/local/system
+
+  exeinto /usr/libexec/luksd
+  doexe ${FILESDIR}/hook.sh
+}
