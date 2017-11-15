@@ -19,6 +19,19 @@ bake() {
   install ${BAKEROOTFS}/usr/share/syslinux/mboot.c32 ${BAKEDEPLOY}/${BAKETIME}/mboot.c32 || :
   ebake -q --depclean
 
+  cat >> ${BAKEROOTFS}/etc/fstab <<EOF
+LABEL=BOOT /boot ext4 defaults 0 0
+/boot/conf/hostname /etc/conf.d/hostname none bind 0 0
+/boot/conf/net /etc/conf.d/net none bind 0 0
+EOF
+
+  echo 'rc_after="clock localmount"' >> ${BAKEROOTFS}/etc/conf.d/hostname
+
+  ln -snf net.lo ${BAKEROOTFS}/etc/init.d/net.sysinit0
+  ln -snf /etc/init.d/mdraid ${BAKEROOTFS}/etc/runlevels/boot/mdraid
+  ln -snf /etc/init.d/lvm ${BAKEROOTFS}/etc/runlevels/boot/lvm
+  ln -snf /etc/init.d/net.sysinit0 ${BAKEROOTFS}/etc/runlevels/default/net.sysinit0
+
   cd ${BAKEROOTFS}
   find . -not -path './boot/*' -print0 | \
     cpio --null -ov --format=newc | \
