@@ -19,18 +19,41 @@ bake() {
   install ${BAKEROOTFS}/usr/share/syslinux/mboot.c32 ${BAKEDEPLOY}/${BAKETIME}/mboot.c32 || :
   ebake -q --depclean
 
+  if [ ! -f ${BAKECONF}/root.key.pub ]; then
+    ssh-keygen -t ed25519 -f ${BAKECONF}/root.key -N '' -C rescue
+  fi
+
   cat >> ${BAKEROOTFS}/etc/fstab <<EOF
 LABEL=BOOT /boot ext4 defaults 0 0
 /boot/conf/hostname /etc/conf.d/hostname none bind 0 0
 /boot/conf/net /etc/conf.d/net none bind 0 0
 EOF
 
+  install -d -m 0555 ${BAKEROOTFS}/proc
+  install -d -m 0555 ${BAKEROOTFS}/sys
+  install -d -m 0755 ${BAKEROOTFS}/dev
+  install -d -m 0755 ${BAKEROOTFS}/home ${BAKEROOTFS}/mnt ${BAKEROOTFS}/opt
+  install -d -m 0700 ${BAKEROOTFS}/root/.ssh
+  install -m 0600 ${BAKECONF}/root.key.pub ${BAKEROOTFS}/root/.ssh/authorized_keys
+
   echo 'rc_after="clock localmount"' >> ${BAKEROOTFS}/etc/conf.d/hostname
+  touch ${BAKEROOTFS}/etc/conf.d/net
 
   ln -snf net.lo ${BAKEROOTFS}/etc/init.d/net.sysinit0
   ln -snf /etc/init.d/mdraid ${BAKEROOTFS}/etc/runlevels/boot/mdraid
   ln -snf /etc/init.d/lvm ${BAKEROOTFS}/etc/runlevels/boot/lvm
   ln -snf /etc/init.d/net.sysinit0 ${BAKEROOTFS}/etc/runlevels/default/net.sysinit0
+
+  ln -snf /sbin/init ${BAKEROOTFS}/init
+
+  # see https://github.com/fnordpipe/rescoo/issues/3
+  install -m 0644 /etc/pam.d/useradd ${BAKEROOTFS}/etc/pam.d/useradd
+  # see https://github.com/fnordpipe/rescoo/issues/2
+  install -m 0644 /usr/lib/cracklib_dict.hwm ${BAKEROOTFS}/usr/lib/cracklib_dict.hwm
+  install -m 0644 /usr/lib/cracklib_dict.pwd ${BAKEROOTFS}/usr/lib/cracklib_dict.pwd
+  install -m 0644 /usr/lib/cracklib_dict.pwi ${BAKEROOTFS}/usr/lib/cracklib_dict.pwi
+  # see https://github.com/fnordpipe/rescoo/issues/1
+  useradd -d /var/empty -R ${BAKEROOTFS} -u 22 -U -c "see bug 637584" sshd
 
   cd ${BAKEROOTFS}
   find . -not -path './boot/*' -print0 | \

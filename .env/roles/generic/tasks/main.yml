@@ -1,7 +1,7 @@
 ---
-#- name: update system
-#  portage:
-#    sync: yes
+- name: update system
+  portage:
+    sync: yes
 
 - name: create symlink
   file:
@@ -44,3 +44,8 @@
     package: '@world'
     quiet: yes
     jobs: 3
+
+- name: install git
+  portage:
+    package: dev-vcs/git
+    state: present

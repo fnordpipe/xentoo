@@ -1,0 +1,6 @@
+# profile
+INPUT_DEVICES=""
+VIDEO_CARDS=""
+
+## system
+USE="${USE} python sqlite vim-syntax"

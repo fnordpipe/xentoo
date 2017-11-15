@@ -1,5 +1,2 @@
-# openssl
-dev-libs/openssl -sslv3
-
 # xen
 app-emulation/xen-tools hvm pygrub

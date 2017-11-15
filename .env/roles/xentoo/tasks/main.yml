@@ -24,6 +24,12 @@
     - { dest: /var/lib/xentoo/deploy }
     - { dest: /var/lib/xentoo/overlays }
 
+- name: fetch overlay repositories
+  git:
+    repo: https://github.com/fnordpipe/fnordpipe-overlay.git
+    dest: /var/lib/xentoo/overlays/fnordpipe
+    version: master
+
 - name: create portage config
   template:
     src: etc/portage/make.conf.j2
@@ -53,7 +59,7 @@
 
 - name: create profile symlink
   file:
-    src: /var/lib/xentoo/overlays/xentoo/profiles/hardened/amd64
+    src: /var/lib/xentoo/overlays/xentoo/profiles/xentoo/amd64
     dest: /var/lib/xentoo/conf/etc/portage/make.profile
     state: link
 
