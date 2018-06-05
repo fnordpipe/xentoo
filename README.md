@@ -1,36 +1,18 @@
-![gentoo](https://gentoo.org/assets/img/badges/gentoo-badge2.png "gentoo")
+# Moved to GitLab
 
-# about
+Due to the recent circumstances where GitHub has been acquired by Microsoft, 
+I have decided to leave this place. There can't be any better time to move 
+to an open-source project (at least one where most parts are) rather than 
+staying and by that supporting Microsoft to build up yet another monopoly 
+based on a closed-source software.
 
-xentoo is a gentoo-based linux-distro that aims to be a lean xen dom0 firmware.
-it's designed to be a single initram that boots a full encrypted filesystem using
-[rluksd](https://github.com/esno/locky).
+**This repository is now hosted on [GitLab](https://gitlab.com/fnordpipe)**
 
-# setup
+We already live in a world almost exclusively controlled by closed software.
+I hope as many people as possible will follow, in order to build up a 
+new open-source standard of git hosting. I believe that all developers 
+(especially open-source developers) should understand this point of view.
 
-## setup the toolchain
+I highly appreciate anyone who takes the opportunity and does the same.
 
-    $ git clone https://github.com/fnordpipe/xentoo.git
-    $ bash ./env.sh <container>
-
-## update the toolchain
-
-    $ bash ./env.sh <container>
-
-## run the build
-
-    $ lxc-attach -n <container> -- /bin/su -l
-    $ ebake -aveq dom0-image
-    $ bake
-
-The rootfs is located at `/var/lib/xentoo/rootfs`
-and the images are located at `/var/lib/xentoo/deploy`
-
-# documentation
-
-* [gentoo devmanual](https://devmanual.gentoo.org)
-  * [ebuild writing](https://devmanual.gentoo.org/ebuild-writing/index.html)
-  * [variables](https://devmanual.gentoo.org/ebuild-writing/variables/index.html)
-  * [install functions](https://devmanual.gentoo.org/function-reference/install-functions/index.html)
-* `man 5 ebuild`
-* `man portage`
+See you on GitLab
